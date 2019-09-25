@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="orderDetPro2_SupReport" language="groovy" pageWidth="453" pageHeight="648" columnWidth="453" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="58c7d1c5-1989-4ce8-ad57-25b9e5ff4069">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="header" mode="Opaque" backcolor="#CCCCCC" hAlign="Center" vAlign="Middle" fontSize="22" isBold="true">
+		<box>
+			<pen lineWidth="1.5" lineColor="#00CCCC"/>
+			<topPen lineWidth="1.5" lineColor="#00CCCC"/>
+			<leftPen lineWidth="1.5" lineColor="#00CCCC"/>
+			<bottomPen lineWidth="1.5" lineColor="#00CCCC"/>
+			<rightPen lineWidth="1.5" lineColor="#00CCCC"/>
+		</box>
+	</style>
+	<style name="detail" mode="Opaque" hAlign="Center" vAlign="Middle" fontSize="16">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{PAGE_COUNT}%2==0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#CCCCCC" hAlign="Center" vAlign="Middle" fontSize="16">
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</style>
+		</conditionalStyle>
+	</style>
+	<parameter name="order_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     SUM(PACKAGE_NUMBER) AS NET_WEIGHT,
+     SUM(total_cost) AS TOTAL_COST,
+       SELLER_WEIGHT."UNITE_PRICE" AS unite_price
+  
+FROM
+     "TEST"."SELLER_WEIGHT" SELLER_WEIGHT
+WHERE
+     customer_order_id = $P{order_id}
+GROUP BY
+     unite_price 
+order by unite_price DESC]]>
+	</queryString>
+	<field name="NET_WEIGHT" class="java.math.BigDecimal"/>
+	<field name="TOTAL_COST" class="java.math.BigDecimal"/>
+	<field name="UNITE_PRICE" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="30">
+			<staticText>
+				<reportElement style="header" x="1" y="0" width="50" height="30" uuid="e9030c3e-e04c-4cc2-b1dc-4516da10940a"/>
+				<text><![CDATA[العدد]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header" x="51" y="0" width="50" height="30" uuid="b2be2695-8fb3-4b32-acf8-29efcc943680"/>
+				<text><![CDATA[الفئة]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header" x="101" y="0" width="70" height="30" uuid="16ba249a-8553-459a-9283-aee90df4c130"/>
+				<text><![CDATA[المبلغ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30">
+			<textField pattern="###0.000">
+				<reportElement style="detail" x="51" y="0" width="50" height="30" uuid="4dd48f22-6128-4574-a9f4-8654cfd0796d"/>
+				<textFieldExpression><![CDATA[$F{UNITE_PRICE}+" ج"]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.000">
+				<reportElement style="detail" x="101" y="0" width="70" height="30" uuid="a29b8719-420e-45fc-b573-43479f12798b"/>
+				<textFieldExpression><![CDATA[$F{TOTAL_COST}+" ج"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="detail" x="1" y="0" width="50" height="30" uuid="5f000d0f-ae24-4de3-b9ae-2014f47c4f4a"/>
+				<textFieldExpression><![CDATA[$F{NET_WEIGHT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
