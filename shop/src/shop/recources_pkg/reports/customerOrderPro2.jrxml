@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="customerOrderPro2Report" language="groovy" pageWidth="453" pageHeight="648" columnWidth="447" leftMargin="6" rightMargin="0" topMargin="0" bottomMargin="0" uuid="16edd906-9efc-41b1-9d3b-30bad98d76f8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="10"/>
+	<import value="com.DateFormatter"/>
+	<style name="headerAttr_style" mode="Opaque" backcolor="#FFFFFF" hAlign="Center" vAlign="Middle" fontName="Tahoma" fontSize="12" isBold="false">
+		<box>
+			<pen lineWidth="1.25"/>
+			<topPen lineWidth="1.25"/>
+			<leftPen lineWidth="1.25"/>
+			<bottomPen lineWidth="1.25"/>
+			<rightPen lineWidth="1.25"/>
+		</box>
+	</style>
+	<style name="orderHeader_style" mode="Opaque" hAlign="Center" vAlign="Middle" fontName="Arial" fontSize="18" isBold="true">
+		<box>
+			<pen lineWidth="1.25"/>
+			<topPen lineWidth="1.25"/>
+			<leftPen lineWidth="1.25"/>
+			<bottomPen lineWidth="1.25"/>
+			<rightPen lineWidth="1.25"/>
+		</box>
+	</style>
+	<parameter name="orderID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\ahmed\\Documents\\NetBeansProjects\\shop\\src\\shop\\recources_pkg\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="photoHeader" class="java.lang.Object"/>
+	<queryString>
+		<![CDATA[SELECT
+     CUSTOMER."CUSTOMER_ID" AS CUSTOMER_ID,
+     CUSTOMER."CUSTOMER_NAME" AS CUSTOMER_NAME,
+     CUSTOMER."CUSTOMER_ADDRESS" AS CUSTOMER_ADDRESS,
+     CUSTOMER."CUSTOMER_PHONE" AS CUSTOMER_PHONE,
+     CUSTOMER_ORDER."ORDER_ID" AS ORDER_ID,
+     CUSTOMER_ORDER."CUSTOMER_ID" AS CUSTOMER_ID,
+     CUSTOMER_ORDER."PRODUCT_ID" AS PRODUCT_ID,
+     CUSTOMER_ORDER."STORE_ID" AS STORE_ID,
+     CUSTOMER_ORDER."NOLUN" AS NOLUN,
+     CUSTOMER_ORDER."GROSS_WEIGHT" AS GROSS_WEIGHT,
+     CUSTOMER_ORDER."NET_WEIGHT" AS NET_WEIGHT
+,to_char (CUSTOMER_ORDER."ORDER_DATE",'DD-MM-YYYY HH24:MI AM ') AS ORDER_DATE,
+
+     CUSTOMER_ORDER."TOTAL_PRICE" AS TOTAL_PRICE,
+     CUSTOMER_ORDER."NET_PRICE" AS NET_PRICE,
+     CUSTOMER_ORDER."EDIT_DATE" AS EDIT_DATE,
+     CUSTOMER_ORDER."DUE_DATE" AS DUE_DATE,
+     CUSTOMER_ORDER."TIPS" AS TIPS,
+     CUSTOMER_ORDER."COMMISION" AS  CUSTOMER_ORDER_COMMISION,
+     CUSTOMER_ORDER."NOTES" AS NOTES,
+     CUSTOMER_ORDER."FINISHED" AS FINISHED,
+     CUSTOMER_ORDER."VECHILE_TYPE" AS VECHILE_TYPE,
+
+     SELLER_WEIGHT."WEIGHT_ID" AS WEIGHT_ID,
+     SELLER_WEIGHT."GROSS_QUANTITY" AS GROSS_QUANTITY,
+     SELLER_WEIGHT."NET_QUANTITY" AS NET_QUANTITY,
+     SELLER_WEIGHT."UNITE_PRICE" AS UNITE_PRICE,
+     SELLER_WEIGHT."TOTAL_COST" AS SellerWeight_TOTAL_COST,
+     SELLER_WEIGHT."SELLER_ORDER_ID" AS SELLER_ORDER_ID,
+     SELLER_WEIGHT."PRODUCT_ID" AS PRODUCT_ID,
+     SELLER_WEIGHT."CUSTOMER_ORDER_ID" AS CUSTOMER_ORDER_ID,
+     SELLER_WEIGHT."PACKAGE_NUMBER" AS PACKAGE_NUMBER,
+     PRODUCT."PRODUCT_ID" AS PRODUCT_ID,
+     PRODUCT."PRODUCT_NAME" AS PRODUCT_NAME,
+     PRODUCT."UNIT" AS UNIT,
+     PRODUCT."COMMISION" AS COMMISION,
+     PRODUCT."UNITE_WEIGHT" AS UNITE_WEIGHT
+FROM
+     "TEST"."CUSTOMER" CUSTOMER INNER JOIN "TEST"."CUSTOMER_ORDER" CUSTOMER_ORDER ON CUSTOMER."CUSTOMER_ID" = CUSTOMER_ORDER."CUSTOMER_ID"
+     INNER JOIN "TEST"."SELLER_WEIGHT" SELLER_WEIGHT ON CUSTOMER_ORDER."ORDER_ID" = SELLER_WEIGHT."CUSTOMER_ORDER_ID"
+     INNER JOIN "TEST"."PRODUCT" PRODUCT ON CUSTOMER_ORDER."PRODUCT_ID" = PRODUCT."PRODUCT_ID"
+     AND PRODUCT."PRODUCT_ID" = SELLER_WEIGHT."PRODUCT_ID"
+
+
+where  CUSTOMER_ORDER."ORDER_ID"=$P{orderID}]]>
+	</queryString>
+	<field name="CUSTOMER_ID" class="java.math.BigDecimal"/>
+	<field name="CUSTOMER_NAME" class="java.lang.String"/>
+	<field name="CUSTOMER_ADDRESS" class="java.lang.String"/>
+	<field name="CUSTOMER_PHONE" class="java.lang.String"/>
+	<field name="ORDER_ID" class="java.math.BigDecimal"/>
+	<field name="PRODUCT_ID" class="java.math.BigDecimal"/>
+	<field name="STORE_ID" class="java.math.BigDecimal"/>
+	<field name="NOLUN" class="java.math.BigDecimal"/>
+	<field name="GROSS_WEIGHT" class="java.math.BigDecimal"/>
+	<field name="NET_WEIGHT" class="java.math.BigDecimal"/>
+	<field name="ORDER_DATE" class="java.lang.String"/>
+	<field name="TOTAL_PRICE" class="java.math.BigDecimal"/>
+	<field name="NET_PRICE" class="java.math.BigDecimal"/>
+	<field name="EDIT_DATE" class="java.sql.Timestamp"/>
+	<field name="DUE_DATE" class="java.sql.Timestamp"/>
+	<field name="TIPS" class="java.math.BigDecimal"/>
+	<field name="CUSTOMER_ORDER_COMMISION" class="java.math.BigDecimal"/>
+	<field name="NOTES" class="java.lang.String"/>
+	<field name="FINISHED" class="java.math.BigDecimal"/>
+	<field name="VECHILE_TYPE" class="java.lang.String"/>
+	<field name="WEIGHT_ID" class="java.math.BigDecimal"/>
+	<field name="GROSS_QUANTITY" class="java.math.BigDecimal"/>
+	<field name="NET_QUANTITY" class="java.math.BigDecimal"/>
+	<field name="UNITE_PRICE" class="java.math.BigDecimal"/>
+	<field name="SELLERWEIGHT_TOTAL_COST" class="java.math.BigDecimal"/>
+	<field name="SELLER_ORDER_ID" class="java.math.BigDecimal"/>
+	<field name="CUSTOMER_ORDER_ID" class="java.math.BigDecimal"/>
+	<field name="PACKAGE_NUMBER" class="java.math.BigDecimal"/>
+	<field name="PRODUCT_NAME" class="java.lang.String"/>
+	<field name="UNIT" class="java.lang.String"/>
+	<field name="COMMISION" class="java.math.BigDecimal"/>
+	<field name="UNITE_WEIGHT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="460" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="423" height="137" uuid="763f6fa2-726d-4957-99e7-4f91bb6cfa4b"/>
+				<imageExpression><![CDATA[$P{photoHeader}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="orderHeader_style" x="320" y="249" width="100" height="28" backcolor="#FFFFFF" uuid="de70eb0d-c61b-4069-bf1e-8331bbc907b8"/>
+				<text><![CDATA[ناولون]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="headerAttr_style" x="170" y="165" width="150" height="28" backcolor="#FFFFFF" uuid="cc9acd73-c9ae-44b9-b9ee-2430b7ae86c7"/>
+				<textFieldExpression><![CDATA[$F{ORDER_ID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="orderHeader_style" x="320" y="165" width="100" height="28" backcolor="#FFFFFF" uuid="59d533f0-f2e9-43f7-b1a6-5888b0b313b5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[رقم الفاتورة]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="headerAttr_style" x="170" y="249" width="150" height="28" backcolor="#FFFFFF" uuid="2d989031-705c-4dae-8d89-9b6a5389b2c1"/>
+				<textFieldExpression><![CDATA[$F{NOLUN}+"  "+"جنية مصري"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="orderHeader_style" x="320" y="277" width="100" height="28" backcolor="#FFFFFF" uuid="f086151b-cf6d-4b53-af2e-68d1b076c6ea"/>
+				<text><![CDATA[تاريخ التحرير]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="headerAttr_style" x="170" y="361" width="150" height="28" backcolor="#FFFFFF" uuid="a881e66c-a9ae-41f4-a4e3-815861292f4c"/>
+				<textFieldExpression><![CDATA[$F{CUSTOMER_ORDER_COMMISION}+"  "+"جنية مصري"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="orderHeader_style" x="320" y="333" width="100" height="28" backcolor="#FFFFFF" uuid="c4370efe-744a-4362-9e8f-29858be6ea76"/>
+				<text><![CDATA[إجمالي المبلغ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="orderHeader_style" x="320" y="417" width="100" height="28" backcolor="#FFFFFF" uuid="8e8b0e98-4dce-404c-8947-06840cfd492f"/>
+				<text><![CDATA[صافي المبلغ]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy hh:mm aaaa">
+				<reportElement style="headerAttr_style" x="170" y="277" width="150" height="28" backcolor="#FFFFFF" uuid="9817e68a-2562-4c74-a2c1-fa4fb2da59eb"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="headerAttr_style" x="170" y="333" width="150" height="28" backcolor="#FFFFFF" uuid="3ddbe76d-4ae5-431c-aa77-dfbce28c550b"/>
+				<textFieldExpression><![CDATA[$F{TOTAL_PRICE}+"  "+"جنية مصري"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="orderHeader_style" x="320" y="305" width="100" height="28" backcolor="#FFFFFF" uuid="ca2454c0-bc8c-4dd1-b48e-15cae9c4e924"/>
+				<text><![CDATA[العدد]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="headerAttr_style" x="170" y="305" width="150" height="28" backcolor="#FFFFFF" uuid="c7a0e8bb-4a4d-4e78-9f44-20d6e9b82f29"/>
+				<textFieldExpression><![CDATA[$F{GROSS_WEIGHT}+"  "+   "كرتونة"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="orderHeader_style" x="320" y="137" width="100" height="28" backcolor="#FFFFFF" uuid="8d617641-bba8-49c7-989d-f377ac49f8f2"/>
+				<text><![CDATA[اسم العميل]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="orderHeader_style" x="320" y="193" width="100" height="28" backcolor="#FFFFFF" uuid="67a315c0-4c0b-465d-9065-537e7638c42a"/>
+				<text><![CDATA[تاريخ الفاتورة]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="headerAttr_style" x="170" y="221" width="150" height="28" backcolor="#FFFFFF" uuid="9e132fc5-110a-470d-8cf2-50acee931dd7"/>
+				<textFieldExpression><![CDATA[$F{PRODUCT_NAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="orderHeader_style" x="320" y="389" width="100" height="28" backcolor="#FFFFFF" uuid="ab1d088e-1dfe-49ec-93fb-70fa76767ac8"/>
+				<text><![CDATA[وهبة]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="orderHeader_style" x="320" y="221" width="100" height="28" backcolor="#FFFFFF" uuid="a98bf2f6-fb69-4d45-a4bd-2bff835db202"/>
+				<text><![CDATA[المنتج]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="headerAttr_style" x="170" y="137" width="150" height="28" backcolor="#FFFFFF" uuid="0080fc19-b0af-4b43-95d5-2c44593c2c6d"/>
+				<textFieldExpression><![CDATA[$F{CUSTOMER_NAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="orderHeader_style" x="320" y="361" width="100" height="28" backcolor="#FFFFFF" uuid="54be6236-bea4-4ad8-a40b-f449e07b6c19"/>
+				<text><![CDATA[العمولة]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="headerAttr_style" x="170" y="193" width="150" height="28" backcolor="#FFFFFF" uuid="01998182-e353-49c7-9f8d-903126712351"/>
+				<textElement>
+					<font pdfEncoding="Cp1256"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DateFormatter.formatedate($F{ORDER_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="headerAttr_style" x="170" y="417" width="150" height="28" backcolor="#FFFFFF" uuid="52e5bafd-da82-4170-b5c7-24f26e88893f"/>
+				<textFieldExpression><![CDATA[$F{NET_PRICE}+"  "+"جنية مصري"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="headerAttr_style" x="170" y="389" width="150" height="28" backcolor="#FFFFFF" uuid="be91b3dc-53d0-476a-9326-f88f1a1a571a"/>
+				<textFieldExpression><![CDATA[$F{TIPS}+"  "+"جنية مصري"]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="137" width="170" height="252" uuid="f3fbc4c8-b99a-44d7-bad8-ac673f5f9491"/>
+				<subreportParameter name="order_id">
+					<subreportParameterExpression><![CDATA[$P{orderID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "orderDetPro2_supReport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+</jasperReport>

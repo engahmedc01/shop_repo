@@ -1,0 +1,1014 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package shop.GUI;
+
+import java.awt.CardLayout;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.text.PlainDocument;
+import shop.GUI_attachement_pkg.*;
+import shop.data_source_pkg.DataSourc;
+import shop.Validation_pkg.*;
+
+/**
+ *
+ * @author ahmed
+ */
+public class CustomerDischarge_panel extends javax.swing.JPanel {
+
+    /**
+     * Creates new form CustomerDischarge_panel
+     */
+    DataSourc data_source;
+    Main_Frame myFrame;
+    boolean fillingMode;
+        boolean monthesFillingMode;
+boolean dayFillinMode;
+    List<java.util.Date> customerOrderBookDates;
+
+
+    void fillDates() {
+        monthesFillingMode = true;
+                int seasonID=data_source.getCurrentSeason();
+
+        customerOrderBookDates = data_source.getcustomerDailyDates(myFrame.firdage_id,seasonID);
+        month_CB.removeAllItems();
+        DateFormat df = new SimpleDateFormat("MMMMMM-yyyy ", new Locale("ar", "AE", "Arabic"));// DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.FULL, new Locale("ar","AE","Arabic"));
+        List<String> monthes = getMonthesList(customerOrderBookDates);
+
+        for (int i = 0; i < monthes.size(); i++) {
+            String formattedDate = (monthes.get(i));
+            
+            month_CB.addItem(formattedDate);
+        }
+
+        monthesFillingMode = false;
+        String currentMonth=(df.format(new Date()));
+        month_CB.setSelectedItem(currentMonth);
+        
+        
+
+    }
+
+    void setCustomersDailyTransaction_TableSize() {
+
+        TableColumn column = null;
+        for (int i = 0; i < 8; i++) {
+            column = customersDailyTransaction_Table.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(5);
+                    break;
+                case 1:
+                    column.setPreferredWidth(50);
+                    break;
+                case 2:
+                    column.setPreferredWidth(20);
+                    break;
+                case 3:
+                    column.setPreferredWidth(20);
+                    break;
+                case 4:
+                    column.setPreferredWidth(20);
+                    break;
+                case 5:
+                    column.setPreferredWidth(20);
+                    break;
+                case 6:
+                    column.setPreferredWidth(30);
+                    break;
+                case 7:
+                    column.setPreferredWidth(100);
+                    break;
+
+            }
+        }
+
+    }
+
+    boolean validateForm() {
+
+        String customerName = "";
+        if (customer_RB.isSelected()) {
+            customerName = name_TF.getText();
+        }
+        if (purchases_RB.isSelected()) {
+            customerName = PName_TF.getText();
+        }
+        if (k_RB.isSelected()) {
+            customerName = KName_TF.getText();
+        }
+        String noloun = noloun_TF.getText();
+        String grossString = weight_TF.getText();
+        String tips = tips_TF.getText();
+        String unites = unites_TF.getText();
+        int index = product_cB.getSelectedIndex();
+        if (customerName.isEmpty()) {
+
+            wraning_label.setText("يجب إدخال اسم العميل");
+            return false;
+        } else if (noloun.isEmpty()) {
+            wraning_label.setText("يجب إدخال الناولون");
+
+            return false;
+        } else if (index == 0) {
+
+//            if (weight_TF.getText().isEmpty()) {
+//                wraning_label.setText("يجب إدخال العدد");
+//                return false;
+//            }
+
+        } else if (tips.isEmpty()) {
+
+            wraning_label.setText("يجب إدخال الوهبة");
+
+            return false;
+        }
+
+        double d_tips = Double.parseDouble(tips);
+        double nol = Double.parseDouble(noloun);
+        if (!data_source.vallidateSafeWithdrawal(nol + d_tips)) {
+
+            return false;
+        } else {
+            wraning_label.setText("");
+        }
+
+        return true;
+
+    }
+
+    public CustomerDischarge_panel(Main_Frame myFrame, DataSourc data_source) {
+        this.data_source = data_source;
+        this.myFrame = myFrame;
+        initComponents();
+        inatiatePage();
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        dates_CB = new javax.swing.JComboBox();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jSplitPane3 = new javax.swing.JSplitPane();
+        dataBook_panel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        month_CB = new javax.swing.JComboBox();
+        day_CB = new javax.swing.JComboBox();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        day_label = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        customersDailyTransaction_Table = new javax.swing.JTable();
+        dataInput_panel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        unit_label = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        phone_TF = new javax.swing.JTextField();
+        address_TF = new PersonAddress_STF(data_source, myFrame, "customer");
+        weight_TF = new javax.swing.JTextField();
+        noloun_TF = new javax.swing.JTextField();
+        tips_TF = new javax.swing.JTextField();
+        add_btn = new javax.swing.JButton();
+        store_CB = new javax.swing.JComboBox();
+        product_cB = new javax.swing.JComboBox();
+        wraning_label = new javax.swing.JLabel();
+        vechileType_Label = new javax.swing.JLabel();
+        vechileType_CB = new javax.swing.JComboBox();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        notes_TA = new javax.swing.JTextArea();
+        unites_TF = new javax.swing.JTextField();
+        unites_label = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        customer_RB = new javax.swing.JRadioButton();
+        purchases_RB = new javax.swing.JRadioButton();
+        k_RB = new javax.swing.JRadioButton();
+        jPanel5 = new javax.swing.JPanel();
+        name_TF = new PersonName_STF(myFrame, "customer", data_source,address_TF, phone_TF);
+        KName_TF = new PersonName_STF(myFrame, "Kcustomer", data_source);
+        PName_TF = new PersonName_STF(myFrame, "Pcustomer", data_source);
+        tag_TF = new PersonAddress_STF(data_source, myFrame, "customer");
+        jLabel12 = new javax.swing.JLabel();
+
+        dates_CB.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        dates_CB.setForeground(new java.awt.Color(255, 0, 51));
+        dates_CB.setPreferredSize(new java.awt.Dimension(150, 30));
+        dates_CB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dates_CBActionPerformed(evt);
+            }
+        });
+
+        setLayout(new javax.swing.OverlayLayout(this));
+
+        jSplitPane3.setDividerLocation(800);
+        jSplitPane3.setDividerSize(10);
+        jSplitPane3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        dataBook_panel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        dataBook_panel.setLayout(new javax.swing.OverlayLayout(dataBook_panel));
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 255), 3));
+        jPanel2.setForeground(new java.awt.Color(102, 102, 255));
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel15.setText("(");
+        jLabel15.setPreferredSize(new java.awt.Dimension(8, 30));
+        jPanel2.add(jLabel15);
+
+        month_CB.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        month_CB.setPreferredSize(new java.awt.Dimension(150, 30));
+        month_CB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                month_CBActionPerformed(evt);
+            }
+        });
+        jPanel2.add(month_CB);
+
+        day_CB.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        day_CB.setPreferredSize(new java.awt.Dimension(75, 30));
+        day_CB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                day_CBActionPerformed(evt);
+            }
+        });
+        jPanel2.add(day_CB);
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel16.setText(")");
+        jLabel16.setPreferredSize(new java.awt.Dimension(8, 30));
+        jPanel2.add(jLabel16);
+
+        jLabel8.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel8.setText("الموافق:");
+        jLabel8.setPreferredSize(new java.awt.Dimension(60, 22));
+        jPanel2.add(jLabel8);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("(");
+        jLabel1.setPreferredSize(new java.awt.Dimension(15, 22));
+        jPanel2.add(jLabel1);
+
+        day_label.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        day_label.setForeground(new java.awt.Color(255, 0, 51));
+        day_label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        day_label.setText("الجمعه");
+        day_label.setPreferredSize(new java.awt.Dimension(60, 22));
+        jPanel2.add(day_label);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel7.setText(")");
+        jPanel2.add(jLabel7);
+        jPanel2.add(jLabel13);
+
+        jLabel14.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel14.setText("تحصيل يوم: ");
+        jLabel14.setPreferredSize(new java.awt.Dimension(80, 22));
+        jPanel2.add(jLabel14);
+
+        customersDailyTransaction_Table.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        customersDailyTransaction_Table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "خالص", "مكان التخزين", "وهبه", "عدد السبايط", "الوزن القائم/العدد", "ناولون", "المنتج", "اسم العميل"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        customersDailyTransaction_Table.setCellSelectionEnabled(true);
+        customersDailyTransaction_Table.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        customersDailyTransaction_Table.setGridColor(new java.awt.Color(102, 102, 255));
+        customersDailyTransaction_Table.setRowHeight(25);
+        customersDailyTransaction_Table.setRowMargin(3);
+        jScrollPane1.setViewportView(customersDailyTransaction_Table);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 787, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        dataBook_panel.add(jPanel1);
+
+        jSplitPane3.setLeftComponent(dataBook_panel);
+
+        dataInput_panel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102), 3));
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("اسم العميل:");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("التليفون:");
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("العنوان:");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("المنتج:");
+
+        unit_label.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        unit_label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        unit_label.setText("الوزن القائم:");
+
+        jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel9.setText("الناولون:");
+
+        jLabel10.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel10.setText("مكان التخزين:");
+
+        jLabel11.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("وهبة:");
+
+        phone_TF.setFont(new java.awt.Font("B Fantezy", 0, 20)); // NOI18N
+        phone_TF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        address_TF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        address_TF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        weight_TF.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        weight_TF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        noloun_TF.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        noloun_TF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        tips_TF.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        tips_TF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        add_btn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        add_btn.setText("إضافه");
+        add_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_btnActionPerformed(evt);
+            }
+        });
+
+        store_CB.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        store_CB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ثلاجه رقم 1", "ثلاجه رقم 2", "ثلاجه رقم 3", "ثلاجه رقم 4", "ثلاجه رقم 5" }));
+
+        product_cB.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        product_cB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "موز بلدي", "موز مستورد" }));
+        product_cB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                product_cBActionPerformed(evt);
+            }
+        });
+
+        wraning_label.setBackground(new java.awt.Color(204, 204, 255));
+        wraning_label.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        wraning_label.setForeground(new java.awt.Color(255, 0, 51));
+        wraning_label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        vechileType_Label.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        vechileType_Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        vechileType_Label.setText("البيان:");
+
+        vechileType_CB.setEditable(true);
+        vechileType_CB.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        vechileType_CB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "دبابه", "جامبو" }));
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ملاحظات", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+
+        jScrollPane2.setWheelScrollingEnabled(false);
+
+        notes_TA.setColumns(20);
+        notes_TA.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        notes_TA.setLineWrap(true);
+        notes_TA.setRows(5);
+        notes_TA.setToolTipText("ملاحظات");
+        notes_TA.setWrapStyleWord(true);
+        notes_TA.setBorder(null);
+        jScrollPane2.setViewportView(notes_TA);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        unites_TF.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        unites_TF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        unites_label.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        unites_label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        unites_label.setText("عدد السبايط:");
+
+        jPanel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 2, true));
+
+        buttonGroup1.add(customer_RB);
+        customer_RB.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        customer_RB.setSelected(true);
+        customer_RB.setText("عميل");
+        customer_RB.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        customer_RB.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        customer_RB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customer_RBActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(purchases_RB);
+        purchases_RB.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        purchases_RB.setText("مشتروات");
+        purchases_RB.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        purchases_RB.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        purchases_RB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchases_RBActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(k_RB);
+        k_RB.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        k_RB.setText("كريم");
+        k_RB.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        k_RB.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        k_RB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                k_RBActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(purchases_RB)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(k_RB)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(customer_RB)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(customer_RB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(purchases_RB)
+                    .addComponent(k_RB))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel5.setLayout(new java.awt.CardLayout());
+
+        name_TF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        name_TF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jPanel5.add(name_TF, "name");
+
+        KName_TF.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        KName_TF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        KName_TF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KName_TFActionPerformed(evt);
+            }
+        });
+        jPanel5.add(KName_TF, "KName");
+
+        PName_TF.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        PName_TF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jPanel5.add(PName_TF, "PName");
+
+        tag_TF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        tag_TF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel12.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel12.setText("كود :");
+
+        javax.swing.GroupLayout dataInput_panelLayout = new javax.swing.GroupLayout(dataInput_panel);
+        dataInput_panel.setLayout(dataInput_panelLayout);
+        dataInput_panelLayout.setHorizontalGroup(
+            dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dataInput_panelLayout.createSequentialGroup()
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dataInput_panelLayout.createSequentialGroup()
+                        .addComponent(wraning_label, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(add_btn)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(dataInput_panelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataInput_panelLayout.createSequentialGroup()
+                                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(address_TF)
+                                    .addComponent(product_cB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(weight_TF)
+                                    .addComponent(noloun_TF)
+                                    .addComponent(store_CB, 0, 1, Short.MAX_VALUE)
+                                    .addComponent(tips_TF))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(unit_label, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataInput_panelLayout.createSequentialGroup()
+                                .addComponent(vechileType_CB, 0, 227, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(vechileType_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(dataInput_panelLayout.createSequentialGroup()
+                                .addComponent(unites_TF)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(unites_label, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataInput_panelLayout.createSequentialGroup()
+                                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(phone_TF)
+                                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(dataInput_panelLayout.createSequentialGroup()
+                                .addComponent(tag_TF)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
+        );
+        dataInput_panelLayout.setVerticalGroup(
+            dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dataInput_panelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(phone_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(address_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(product_cB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(unit_label, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(weight_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(unites_label, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(unites_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(noloun_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(store_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tips_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(vechileType_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vechileType_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tag_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dataInput_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(add_btn)
+                    .addComponent(wraning_label, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(63, Short.MAX_VALUE))
+        );
+
+        PlainDocument customerPhone_TF_doc = (PlainDocument)phone_TF .getDocument();
+        customerPhone_TF_doc .setDocumentFilter(new LongInputValidator(this.phone_TF, this.wraning_label));
+        PlainDocument weight_TF_doc = (PlainDocument)weight_TF .getDocument();
+        weight_TF_doc.setDocumentFilter(new DoubleInputValidator(this.weight_TF , this.wraning_label));
+        PlainDocument noloun_TF_doc = (PlainDocument)noloun_TF.getDocument();
+        noloun_TF_doc.setDocumentFilter(new DoubleInputValidator(this.noloun_TF , this.wraning_label));
+        PlainDocument tips_TF_doc = (PlainDocument)tips_TF.getDocument();
+        tips_TF_doc.setDocumentFilter(new DoubleInputValidator(this.tips_TF , this.wraning_label));
+        PlainDocument unites_TF_doc = (PlainDocument)unites_TF .getDocument();
+        unites_TF_doc.setDocumentFilter(new IntegerInputValidator(this.unites_TF , this.wraning_label));
+
+        jSplitPane3.setRightComponent(dataInput_panel);
+
+        jScrollPane3.setViewportView(jSplitPane3);
+
+        add(jScrollPane3);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void product_cBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_cBActionPerformed
+        // TODO add your handling code here:
+        int index = product_cB.getSelectedIndex();
+        if (index == 0) {
+            unit_label.setText("الوزن القائم:");
+            this.unites_label.setVisible(true);
+            this.unites_TF.setVisible(true);
+        } else {
+            unit_label.setText("العدد");
+        }
+        this.unites_label.setVisible(false);
+        this.unites_TF.setVisible(false);
+    }//GEN-LAST:event_product_cBActionPerformed
+
+    private void add_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_btnActionPerformed
+         // TODO add your handling code here:
+        if (validateForm()) {
+            String type = "";
+            String name = name_TF.getText();
+            if (purchases_RB.isSelected()) {
+                name = "مشتروات_" + PName_TF.getText();
+                type = "P";
+            }
+            if (k_RB.isSelected()) {
+                name = "كريم_" + KName_TF.getText();
+            }
+            String address = address_TF.getText();
+            String phone = phone_TF.getText();
+            String tag = tag_TF.getText();
+            String product = product_cB.getSelectedItem().toString();
+            double weight = (weight_TF.getText().isEmpty()) ? 0 : Double.parseDouble(weight_TF.getText());
+            double noloun = Double.parseDouble(noloun_TF.getText());
+            int store_id = store_CB.getSelectedIndex() + 1;
+            double tips = Double.parseDouble(tips_TF.getText());
+            String vechileType = vechileType_CB.getSelectedItem().toString();
+            String notes = notes_TA.getText();
+
+            int unites = (unites_TF.getText().isEmpty()) ? 0 : Integer.parseInt(unites_TF.getText());
+            data_source.customerTransaction(name, address, phone, product, noloun, store_id, vechileType, notes, weight, tips, unites, type, myFrame.firdage_id,tag);
+            inatiatePage();
+        }
+
+    }//GEN-LAST:event_add_btnActionPerformed
+
+    private void dates_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dates_CBActionPerformed
+        // TODO add your handling code here:
+        DateFormat df = new SimpleDateFormat("EEEEEEE ", new Locale("ar", "AE", "Arabic"));// DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.FULL, new Locale("ar","AE","Arabic"));
+
+        if (!fillingMode) {
+
+            int index = dates_CB.getSelectedIndex();
+            Date date = customerOrderBookDates.get(index);
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            String day = df.format(sqlDate);
+            day_label.setText(day);
+            fillCustomersDailyTransactionTable(sqlDate);
+        }
+    }//GEN-LAST:event_dates_CBActionPerformed
+
+    private void customer_RBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customer_RBActionPerformed
+        // TODO add your handling code here:
+        if (customer_RB.isSelected()) {
+            CardLayout c = (CardLayout) jPanel5.getLayout();
+            c.show(jPanel5, "name");
+            this.name_TF.setEditable(true);
+            this.phone_TF.setEditable(true);
+            this.address_TF.setEditable(true);
+
+        }
+    }//GEN-LAST:event_customer_RBActionPerformed
+
+    private void k_RBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_RBActionPerformed
+        // TODO add your handling code here:
+        if (k_RB.isSelected()) {
+            CardLayout c = (CardLayout) jPanel5.getLayout();
+            c.show(jPanel5, "KName");
+            this.name_TF.setEditable(true);
+            this.phone_TF.setEditable(false);
+            this.address_TF.setEditable(false);
+
+            this.name_TF.setText("");
+            this.phone_TF.setText("");;
+            this.address_TF.setText("");
+
+        }
+
+    }//GEN-LAST:event_k_RBActionPerformed
+
+    private void purchases_RBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchases_RBActionPerformed
+        // TODO add your handling code here:
+
+        if (purchases_RB.isSelected()) {
+
+            CardLayout c = (CardLayout) jPanel5.getLayout();
+            c.show(jPanel5, "PName");
+            this.name_TF.setEditable(true);
+            this.phone_TF.setEditable(false);
+            this.address_TF.setEditable(false);
+
+            this.name_TF.setText("");
+            this.phone_TF.setText("");;
+            this.address_TF.setText("");
+
+        }
+
+
+    }//GEN-LAST:event_purchases_RBActionPerformed
+
+    private void KName_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KName_TFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_KName_TFActionPerformed
+
+    private void day_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_day_CBActionPerformed
+        // TODO add your handling code here:
+
+        DateFormat df = new SimpleDateFormat("dd-MMMMMM-yyyy ", new Locale("ar", "AE", "Arabic"));// DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.FULL, new Locale("ar","AE","Arabic"));
+        DateFormat df_dayName = new SimpleDateFormat("EEEEEEE", new Locale("ar", "AE", "Arabic"));// DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.FULL, new Locale("ar","AE","Arabic"));
+
+        if(!monthesFillingMode && !dayFillinMode){
+
+            String month=month_CB.getSelectedItem().toString();
+            String day=day_CB.getSelectedItem().toString();
+            String selectdDate=day+"-"+month;
+            //get selected date
+            int i=0;
+            for( i=0;i<customerOrderBookDates.size();i++){
+                String s=(df.format(customerOrderBookDates.get(i)));
+                if(selectdDate.equals(s))
+                {
+
+                    break;
+                }
+
+            }
+            if(i<customerOrderBookDates.size()){
+            Date date = customerOrderBookDates.get(i);
+
+           // String dayname = getWeekDay(date);
+            day_label.setText(df_dayName.format(date));
+            fillCustomersDailyTransactionTable(new java.sql.Date(date.getTime()));
+            }
+        }
+    }//GEN-LAST:event_day_CBActionPerformed
+
+    List<String> getDaysList(List<java.util.Date> dates, String selectedMonth) {
+        DateFormat df = new SimpleDateFormat("MMMMMM-yyyy ", new Locale("ar", "AE", "Arabic"));// DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.FULL, new Locale("ar","AE","Arabic"));
+     DateFormat df_day = new SimpleDateFormat("dd", new Locale("ar", "AE", "Arabic"));// DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.FULL, new Locale("ar","AE","Arabic"));
+
+        List<String> days = new ArrayList<>();
+        boolean isCurrentMonthe=false;
+        for (int i = 0; i < dates.size(); i++) {
+            String month = (df.format(dates.get(i)));
+            if (month.equals(selectedMonth)) {
+                days.add((df_day.format(dates.get(i))));
+                
+
+            }
+
+           
+
+        }
+        String currentMonthe=(df.format(new Date()));
+        String currentDay=(df_day.format(new Date()));
+        
+        if(!days.contains(currentDay)&&selectedMonth.equals(currentMonthe)){
+        days.add(currentDay);
+        
+        }
+         return days;
+        
+
+    }
+
+    List<String> getMonthesList(List<java.util.Date> dates) {
+        DateFormat df = new SimpleDateFormat("MMMMMM-yyyy ", new Locale("ar", "AE", "Arabic"));// DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.FULL, new Locale("ar","AE","Arabic"));
+        List<String> monthes = new ArrayList<>();
+        for (int i = 0; i < dates.size(); i++) {
+            String date = (df.format(dates.get(i)));
+            if (!monthes.contains(date)) {
+                monthes.add((date));
+
+            }
+
+
+        }
+        String currentMonth=(df.format(new Date()));
+        if(!monthes.contains(currentMonth)){
+        monthes.add(currentMonth);
+        
+        }
+        return monthes;
+
+    }
+
+    private void month_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_month_CBActionPerformed
+        // TODO add your handling code here:
+        DateFormat df_month = new SimpleDateFormat("MMMMMM-yyyy ", new Locale("ar", "AE", "Arabic"));// DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.FULL, new Locale("ar","AE","Arabic"));
+        DateFormat df_day = new SimpleDateFormat("dd", new Locale("ar", "AE", "Arabic"));// DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.FULL, new Locale("ar","AE","Arabic"));
+
+        if(!monthesFillingMode){
+            dayFillinMode=true;
+            day_CB.removeAllItems();
+            List<String>days = getDaysList(customerOrderBookDates, month_CB.getSelectedItem().toString());
+            for (int i = 0; i < days.size(); i++) {
+                day_CB.addItem(days.get(i));
+
+            }
+            dayFillinMode=false;
+            //if selected month is cusrrent month
+            if((df_month.format(new Date())).equals(month_CB.getSelectedItem().toString())){
+
+                String currentday=df_day.format(new Date());
+
+                day_CB.setSelectedItem(((currentday)));
+
+            }else
+            { day_CB.setSelectedIndex(0);}
+
+        }
+
+    }//GEN-LAST:event_month_CBActionPerformed
+
+    public void inatiatePage() {
+        
+        
+        this.name_TF.setText("");
+        this.noloun_TF.setText("");
+        this.notes_TA.setText("");
+        this.weight_TF.setText("");
+         this.unites_TF.setText("");
+          this.tips_TF.setText("");
+        fillDates();
+
+    }
+
+    void fillCustomersDailyTransactionTable(java.sql.Date date) {
+//int firdage_id =fridage_CB.getSelectedIndex()+1;
+        Object[][] data = data_source.getCustomerDailyTransaction(date, myFrame.firdage_id);
+        DefaultTableModel dtm = (DefaultTableModel) customersDailyTransaction_Table.getModel();
+        dtm.setDataVector(data, custDailyTrans_columnTitle);
+
+        customersDailyTransaction_Table.setModel(dtm);
+        setCustomersDailyTransaction_TableSize();
+        
+        
+       
+    }
+
+    Date StringToDate(String s) {
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd-MM-yyyy").parse(s);
+        } catch (ParseException ex) {
+            Logger.getLogger(CustomerDischarge_panel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return date;
+    }
+
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField KName_TF;
+    private javax.swing.JTextField PName_TF;
+    private javax.swing.JButton add_btn;
+    private javax.swing.JTextField address_TF;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton customer_RB;
+    private javax.swing.JTable customersDailyTransaction_Table;
+    private javax.swing.JPanel dataBook_panel;
+    private javax.swing.JPanel dataInput_panel;
+    private javax.swing.JComboBox dates_CB;
+    private javax.swing.JComboBox day_CB;
+    private javax.swing.JLabel day_label;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JRadioButton k_RB;
+    private javax.swing.JComboBox month_CB;
+    private javax.swing.JTextField name_TF;
+    private javax.swing.JTextField noloun_TF;
+    private javax.swing.JTextArea notes_TA;
+    private javax.swing.JTextField phone_TF;
+    private javax.swing.JComboBox product_cB;
+    private javax.swing.JRadioButton purchases_RB;
+    private javax.swing.JComboBox store_CB;
+    private javax.swing.JTextField tag_TF;
+    private javax.swing.JTextField tips_TF;
+    private javax.swing.JLabel unit_label;
+    private javax.swing.JTextField unites_TF;
+    private javax.swing.JLabel unites_label;
+    private javax.swing.JComboBox vechileType_CB;
+    private javax.swing.JLabel vechileType_Label;
+    private javax.swing.JTextField weight_TF;
+    private javax.swing.JLabel wraning_label;
+    // End of variables declaration//GEN-END:variables
+
+    String[] custDailyTrans_columnTitle = new String[]{
+        "خالص", "مكان التخزين", "وهبه", "عدد السبايط", "الوزن القائم/العدد", "ناولون", "المنتج", "اسم العميل"
+    };
+
+}
